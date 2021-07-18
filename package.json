@@ -1,0 +1,19 @@
+{
+  "name": "cruise-ship",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "JEST"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\t"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "d": "^1.0.1",
+    "jest": "^27.0.6"
+  }
+}
