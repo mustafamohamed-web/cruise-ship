@@ -1,29 +1,51 @@
 const Ship = require('./ship.js');
 const Port = require('./port.js');
+const Itinerary = require('./itinerary.js')
 
 
 
 describe ('Ship', ()=>{
+    let ship;
+    let london;
+    let birmingham;
+    let itinerary;
+    beforeEach(()=>{
+        london = new Port('london')
+        birmingham = new Port('birmingham')
+        itinerary = new Itinerary([london, birmingham])
+        ship = new Ship(itinerary)
+    })
 it('Can be instantiated', ()=>{
-    expect(new Ship()).toBeInstanceOf(Object);
+    expect(ship).toBeInstanceOf(Object);
+
 })
 it('It has a starting port',()=>{
-    const port = new Port('London')
-    const ship = new Ship(port)
-    expect(ship.currentPort).toBe(port)
+    console.log(ship.currentPort)
+    expect(ship.currentPort).toBe(london)
 })
 it('can set sail',()=>{
-    const port = new Port('London')
-    const ship = new Ship(port)
     ship.setSail();
     console.log(ship.currentPort)
     expect(ship.currentPort).toBeFalsy();
+    expect(ship.previousPort.ships).not.toContain(ship)
+})
+it('cant sail past last port',()=>{
+    ship.setSail();
+    ship.dock()
+    expect(()=>ship.setSail()).toThrowError('end of itinerary reached')
+})
+it('previous port is equal to current port',()=>{
+    ship.setSail();
+    expect(ship.previousPort).toBe(london)
 })
 it('can dock different port',()=>{
-    const london = new Port('london')
-    const ship = new Ship(london)
-    const birmingham = new Port('birmingham')
-    ship.dock(birmingham)
+    ship.setSail()
+    ship.dock()
     expect(ship.currentPort).toBe(birmingham)
+    expect(birmingham.ships).toContain(ship)
 })
+it('gets added to port on instantiation',()=>{
+    expect(london.ships).toContain(ship)
+})
+
 });
